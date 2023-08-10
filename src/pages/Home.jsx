@@ -13,7 +13,7 @@ function App() {
   const [favourites, setFavourites] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
-  const getMovieRequest = async (searchValue) => {
+  const getMovieRequest = async () => {
     let URL;
     if (searchValue) {
       URL = `https://www.omdbapi.com/?s=${searchValue}&apikey=${API_KEY}`;
@@ -31,7 +31,10 @@ function App() {
   };
 
   useEffect(() => {
-    getMovieRequest(searchValue);
+    const delayDebounceFn = setTimeout(() => {
+      getMovieRequest();
+    }, 3000);
+    return () => clearTimeout(delayDebounceFn);
   }, [searchValue]);
 
   useEffect(() => {
